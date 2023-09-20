@@ -36,24 +36,34 @@ class MainActivity : AppCompatActivity() {
 
         binding.trueButton.setOnClickListener {
             checkAnswer(true)
+            binding.trueButton.isEnabled = ! (binding.trueButton.isEnabled)
+            binding.falseButton.isEnabled = ! (binding.falseButton.isEnabled)
         }
 
         binding.falseButton.setOnClickListener{
             checkAnswer(false)
+            binding.falseButton.isEnabled = ! (binding.falseButton.isEnabled)
+            binding.trueButton.isEnabled = ! (binding.trueButton.isEnabled)
         }
 
         binding.nextButton.setOnClickListener{
             currentIndex = (currentIndex + 1) % questionBank.size
+            binding.trueButton.isEnabled = true
+            binding.falseButton.isEnabled = true
             updateQuestion()
         }
 
         binding.questionTextview.setOnClickListener{
             currentIndex = (currentIndex + 1) % questionBank.size
+            binding.trueButton.isEnabled = true
+            binding.falseButton.isEnabled = true
             updateQuestion()
         }
 
         binding.prevButton.setOnClickListener{
             currentIndex = (currentIndex - 1) % questionBank.size
+            binding.trueButton.isEnabled = ! (binding.trueButton.isEnabled)
+            binding.falseButton.isEnabled = ! (binding.falseButton.isEnabled)
             updateQuestion()
         }
 
