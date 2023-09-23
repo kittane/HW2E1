@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         Question(R.string.question_asia, true)
     )
     private var currentIndex = 0
+    private var numberCorrect = 0
+    private var userScore = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,12 +40,14 @@ class MainActivity : AppCompatActivity() {
             checkAnswer(true)
             binding.trueButton.isEnabled = ! (binding.trueButton.isEnabled)
             binding.falseButton.isEnabled = ! (binding.falseButton.isEnabled)
+            computeScore()
         }
 
         binding.falseButton.setOnClickListener{
             checkAnswer(false)
             binding.falseButton.isEnabled = ! (binding.falseButton.isEnabled)
             binding.trueButton.isEnabled = ! (binding.trueButton.isEnabled)
+            computeScore()
         }
 
         binding.nextButton.setOnClickListener{
@@ -106,11 +110,22 @@ class MainActivity : AppCompatActivity() {
         val correctAnswer = questionBank[currentIndex].answer
 
         val messageResId = if (userAnswer == correctAnswer) {
+            numberCorrect++
             R.string.correct_toast
         } else {
             R.string.incorrect_toast
         }
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT) .show()
+    }
+
+    private fun computeScore() {
+        if (currentIndex == questionBank.size - 1) {
+            userScore = (numberCorrect * 100.0 /questionBank.size).toInt()
+            val formattedScore = String.format("%.1f%%", userScore.toDouble())
+            Toast.makeText(this, formattedScore, Toast.LENGTH_SHORT) .show()
+            numberCorrect = 0
+        }
+
     }
 }
